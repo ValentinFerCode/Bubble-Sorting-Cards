@@ -16,36 +16,60 @@
   <body>
     <section>
       <div class="container-fluid">
-        <div id="cabecera" class="row">
-          <div class="col-6 d-flex">
+        <div id="cabecera" class="row mt-3 mb-5">
+          <div class="col-6 d-flex align-items-center">
             <h1>Original:</h1>
-            <div class="input-group">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Recipient's username"
-                aria-label="Recipient's username with two button addons"
-              />
-              <button class="btn btn-outline-secondary" type="button">
-                draw
-              </button>
-              <button class="btn btn-outline-secondary" type="button">
-                Sort
-              </button>
-            </div>
+            <input
+              id="usuario-select"
+              type="number"
+              min="1"
+              max="9"
+              class="input-height input-width ms-3"
+              placeholder=""
+              aria-label="userinput"
+              aria-describedby="basic-addon1"
+              oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+              onselectstart="return false"
+              onpaste="return false;"
+              onCopy="return false"
+              onCut="return false"
+              onDrag="return false"
+              onDrop="return false"
+              autocomplete="off"
+              onkeydown="return false;"
+            />
+            <button
+              id="drawValue"
+              type="button"
+              class="btn btn-light input-height ms-2"
+            >
+              Draw
+            </button>
+            <button
+              id="sortValue"
+              type="button"
+              class="btn btn-light input-height ms-1"
+            >
+              Sort
+            </button>
           </div>
-          <div class="col-6"></div>
+          <div class="col-6 d-flex justify-content-end align-items-center">
+            <img
+              id="breathcode-icon"
+              src="https://secure.meetupstatic.com/photos/event/4/9/2/9/600_464718729.jpeg"
+              alt=""
+            />
+          </div>
         </div>
-        <div id="cuerpo" class="row"></div>
+        <div id="medio" class="row mt-5 mb-5">
+          <div id="cartas-shuffle" class="d-flex"></div>
+        </div>
+        <div id="abajo" class="row mt-5 mb-3">
+          <h1>Select sort Log:</h1>
+          <!-- Acá van las cartas generadas de la segunda fila de cartas -->
+          <div id="cartas-sort" class="d-flex"></div>
+        </div>
       </div>
     </section>
-    <!-- Script de Bootstrap -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
-      crossorigin="anonymous"
-    ></script>
-    <!-- Script Propio -->
-    <script src="./script.js"></script>
   </body>
 </html>

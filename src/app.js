@@ -6,61 +6,107 @@ import "./assets/img/rigo-baby.jpg";
 import "./assets/img/4geeks.ico";
 
 window.onload = function() {
-  let palo = ["♣", "♠", "♥", "♦"];
-  let number = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"];
+  let drawBtn = document.getElementById("drawValue");
+  let sortBtn = document.getElementById("sortValue");
+  drawBtn.addEventListener("click", function() {
+    document.getElementById("cartas-shuffle").innerHTML = "";
+    // Arrays contenedores de palo y número
+    let palo = ["♧", "♤", "♡", "♢"];
+    let number = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "J", "Q", "K"];
 
-  let sorteoPalo = Math.floor(Math.random() * palo.length);
-  let sorteoNumber = Math.floor(Math.random() * number.length);
+    // Variable que guarda en su contenido el número ingresado por el usuario
+    let valorObtenido = document.getElementById("usuario-select").value;
+    // //  Bucle que posibilita la copia automática de cartas
+    let contenedor = [];
 
-  let contenedorNumber = number[sorteoNumber];
-  let contenedorPalo = palo[sorteoPalo];
+    for (let i = 1; i <= valorObtenido; i++) {
+      // Generados aleatorios de posición
+      let sortPalo = Math.floor(Math.random() * palo.length);
+      let sortNumber = Math.floor(Math.random() * number.length);
 
-  let color = contenedorPalo == "♦" || contenedorPalo == "♥" ? "red" : "black";
+      // Contenedor de sort palo y number
+      let contenedorNumber = number[sortNumber];
+      let contenedorPalo = palo[sortPalo];
 
-  // document.getElementById("arriba").innerHTML = contenedorPalo;
-  // document.getElementById("arriba").style.color = color;
-  // document.getElementById("medio").innerHTML = contenedorNumber;
-  // document.getElementById("medio").style.color = color;
-  // document.getElementById("abajo").innerHTML = contenedorPalo;
-  // document.getElementById("abajo").style.color = color;
+      if (contenedorPalo === "♡" || contenedorPalo === "♢") {
+        document.getElementById(
+          "cartas-shuffle"
+        ).innerHTML += `<div id="cartas-shuffle">
+                        <div class="card naipe m-3">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item border-0 text-danger">${contenedorPalo}</li>
+                              <li class="list-group-item border-0 text-center text-danger">${contenedorNumber}</li>
+                              <li class="list-group-item border-0 text-danger abajo">${contenedorPalo}</li>
+                            </ul>
+                          </div>
+                    </div>`;
+      } else {
+        document.getElementById(
+          "cartas-shuffle"
+        ).innerHTML += `<div id="cartas-shuffle">
+                        <div class="card naipe m-3">
+                            <ul class="list-group list-group-flush">
+                              <li class="list-group-item border-0">${contenedorPalo}</li>
+                              <li class="list-group-item border-0 text-center">${contenedorNumber}</li>
+                              <li class="list-group-item border-0 abajo">${contenedorPalo}</li>
+                            </ul>
+                          </div>
+                    </div>`;
+      }
+      contenedor.push(contenedorNumber + contenedorPalo);
+      console.log(contenedor);
+    }
 
-  for (let i = 1; i <= 3; i++) {
-    document.body.innerHTML += `<section>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-4">
-          <div class="card margin-top card-height" style="width: 18rem;">
-            <div class="card-header border-bottom-0">
-              <h4 id="arriba">${contenedorPalo}</h4>
-            </div>
-            <div
-              class="card-body d-flex align-items-center justify-content-center"
-            >
-              <h1 id="medio">${contenedorNumber}</h1>
-            </div>
-            <div class="card-footer d-flex flex-row-reverse border-top-0">
-              <h4 id="abajo">${contenedorPalo}</h4>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-4"></div>
-      </div>
-    </div>
-  </section>`;
-  }
+    const bubbleSort = arr => {
+      let wall = arr.length - 1;
+      while (wall > 0) {
+        let index = 0;
+        while (index < wall) {
+          if (arr[index] > arr[index + 1]) {
+            let aux = arr[index];
+            arr[index] = arr[index + 1];
+            arr[index + 1] = aux;
+          }
+          index++;
+        }
+        wall--;
+      }
+      return arr;
+    };
+
+    sortBtn.addEventListener("click", function() {
+      document.getElementById("cartas-sort").innerHTML = "";
+      let ordenado = bubbleSort(contenedor);
+      for (let i = 1; i <= contenedor.length; i++) {
+        let cosoTexto = ordenado[i - 1];
+        let array = cosoTexto.split("");
+
+        if (array[1] === "♡" || array[1] === "♢") {
+          document.getElementById(
+            "cartas-sort"
+          ).innerHTML += `<div id="cartas-shuffle">
+                            <div id="naipeColoreado" class="card naipe m-3">
+                                <ul class="list-group list-group-flush">
+                                  <li class="list-group-item border-0 text-danger">${array[1]}</li>
+                                  <li class="list-group-item border-0 text-danger text-center">${array[0]}</li>
+                                  <li class="list-group-item border-0 text-danger abajo">${array[1]}</li>
+                                </ul>
+                              </div>
+                        </div>`;
+        } else {
+          document.getElementById(
+            "cartas-sort"
+          ).innerHTML += `<div id="cartas-shuffle">
+                          <div id="naipeColoreado" class="card naipe m-3">
+                              <ul class="list-group list-group-flush">
+                                <li class="list-group-item border-0">${array[1]}</li>
+                                <li class="list-group-item border-0 text-center">${array[0]}</li>
+                                <li class="list-group-item border-0 abajo">${array[1]}</li>
+                              </ul>
+                            </div>
+                      </div>`;
+        }
+      }
+    });
+  });
 };
-
-// for (let i = 1; i <= 3; i++) {
-//   document.body.innerHTML += `<div class="card" style="width: 18rem;">
-//   <ul class="list-group list-group-flush">
-//     <li class="list-group-item" id="top">${palos[indexPalo]}</li>
-//     <li class="list-group-item" id="number">${numeros[indexNumero]}</li>
-//     <li class="list-group-item" id="bottom">${palos[indexPalo]}</li>
-//   </ul>
-// </div>`;
-// }
-
-// funciones a crear
-// carta random
-// dibujar cartas
